@@ -1,15 +1,5 @@
-# Darkelf PQ Mini Engine  
-Community Post-Quantum Secure Channel (Reference Implementation)
-
-Darkelf PQ Mini Engine is a small, self-contained post-quantum (PQ) secure channel designed for experimentation, research, and learning. It demonstrates how modern post-quantum cryptography primitives can be combined into a working encrypted transport without relying on TLS.
-
-The design is intentionally minimal, explicit, and readable so developers and researchers can clearly see how the protocol works end to end.
-
-This project supports both direct TCP connections and Tor (.onion) connections via SOCKS5.
-
-SECURITY WARNING: This project is a reference implementation and prototype. It is NOT audited, NOT hardened, and NOT a replacement for TLS. Do not rely on it to protect real secrets without independent professional review.
-
 # Darkelf PQ Mini Engine
+
 Community Post-Quantum Secure Channel (Reference Implementation)
 
 Darkelf PQ Mini Engine is a small, self-contained post-quantum (PQ) secure channel designed for experimentation, research, and learning. It demonstrates how modern post-quantum cryptography primitives can be combined into a working encrypted transport without relying on TLS.
@@ -18,10 +8,8 @@ The design is intentionally minimal, explicit, and readable so developers and re
 
 This project supports both direct TCP connections and Tor (.onion) connections via SOCKS5.
 
-SECURITY WARNING:
-This project is a reference implementation and prototype.
-It is NOT audited, NOT hardened, and NOT a replacement for TLS.
-Do not rely on it to protect real secrets without independent professional review.
+### SECURITY WARNING
+This project is a reference implementation and prototype. It is NOT audited, NOT hardened, and NOT a replacement for TLS. Do not rely on it to protect real secrets without independent professional review.
 
 ---
 
@@ -60,63 +48,85 @@ Do not rely on it to protect real secrets without independent professional revie
     ├── pqme-keygen.cpp
     ├── pqme-server.cpp
     └── pqme-client.cpp
+```
 
+---
 
-Dependencies:
+## Dependencies
+
 - liboqs (headers and library must be installed)
 - OpenSSL (libcrypto)
 
 On most systems, liboqs must be built from source.
 
-Build Instructions:
+---
 
+## Build Instructions
+
+```bash
 mkdir -p build
 cd build
 cmake ..
 cmake --build . --config Release
+```
 
 If liboqs is installed in a non-standard location:
 
+```bash
 cmake -S . -B build -DOQS_ROOT=/path/to/liboqs
 cmake --build build
+```
 
-Applications:
+---
 
-Key Generation:
-Generate a long-term server identity keypair used to authenticate the handshake.
+## Applications
 
+### Key Generation
+
+Generate a long-term server identity keypair used to authenticate the handshake:
+
+```bash
 ./pqme-keygen Dilithium3 server_sig_pk.bin server_sig_sk.bin
+```
 
-Server:
-Run a server that performs a post-quantum handshake and encrypted echo.
+### Server
+Run a server that performs a post-quantum handshake and encrypted echo:
 
+```bash
 ./pqme-server 0.0.0.0 4444 Kyber768 Dilithium3 server_keys
+```
 
-The server_keys directory must contain:
-- server_sig_pk.bin
-- server_sig_sk.bin
+The `server_keys` directory must contain:
+- `server_sig_pk.bin`
+- `server_sig_sk.bin`
 
-Client (Direct TCP):
+### Client (Direct TCP)
 
+```bash
 ./pqme-client 127.0.0.1 4444 Kyber768 Dilithium3 server_sig_pk.bin 0
+```
 
-Client (Tor via SOCKS5):
+### Client (Tor via SOCKS5)
 
-Tor daemon (SOCKS5 on port 9050):
+#### Tor daemon (SOCKS5 on port 9050):
+```bash
 ./pqme-client exampleonion.onion 4444 Kyber768 Dilithium3 server_sig_pk.bin 1
+```
 
-Tor Browser (SOCKS5 on port 9150):
+#### Tor Browser (SOCKS5 on port 9150):
+```bash
 ./pqme-client exampleonion.onion 4444 Kyber768 Dilithium3 server_sig_pk.bin 2
+```
 
+---
 
+## High-Level Protocol Overview
 
-# High-Level Protocol Overview:
-
-1. ClientHello
+1. **ClientHello**
    - Protocol version
    - Client nonce
 
-2. ServerHello
+2. **ServerHello**
    - Protocol version
    - Server nonce
    - Selected KEM algorithm
@@ -124,27 +134,31 @@ Tor Browser (SOCKS5 on port 9150):
    - Ephemeral KEM public key
    - Signature over transcript
 
-3. ClientKey
+3. **ClientKey**
    - KEM ciphertext
 
-4. Key Derivation
+4. **Key Derivation**
    - HKDF-SHA256 over the KEM shared secret and handshake transcript
 
-5. Transport
+5. **Transport**
    - AES-256-GCM encrypted records
    - Sequence-number-based nonces
    - Explicit length-prefixed framing
 
-Design Goals:
+---
+
+## Design Goals
+
 - Explicit and readable protocol logic
 - No TLS dependency
 - Easy to audit and reason about
 - Easy to modify and experiment with
 - Tor-friendly by design
 
-Acknowledgements:
+---
+
+## Acknowledgements
 - Open Quantum Safe (liboqs)
 - OpenSSL
 - Post-quantum cryptography research community
 - Darkelf ecosystem (inspiration)
-
