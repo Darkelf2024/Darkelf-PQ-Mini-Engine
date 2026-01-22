@@ -1,9 +1,6 @@
 
 ---
 
-# `LICENSE` (MIT)
-
-```txt
 MIT License
 
 Copyright (c) 2026
