@@ -108,7 +108,9 @@ Tor daemon (SOCKS5 on port 9050):
 Tor Browser (SOCKS5 on port 9150):
 ./pqme-client exampleonion.onion 4444 Kyber768 Dilithium3 server_sig_pk.bin 2
 
-High-Level Protocol Overview:
+
+
+# High-Level Protocol Overview:
 
 1. ClientHello
    - Protocol version
@@ -139,9 +141,6 @@ Design Goals:
 - Easy to audit and reason about
 - Easy to modify and experiment with
 - Tor-friendly by design
-
-License:
-Choose a license before publishing (MIT or BSD-2-Clause recommended).
 
 Acknowledgements:
 - Open Quantum Safe (liboqs)
