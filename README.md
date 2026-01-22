@@ -9,7 +9,24 @@ This project supports both direct TCP connections and Tor (.onion) connections v
 
 SECURITY WARNING: This project is a reference implementation and prototype. It is NOT audited, NOT hardened, and NOT a replacement for TLS. Do not rely on it to protect real secrets without independent professional review.
 
-Features:
+# Darkelf PQ Mini Engine
+Community Post-Quantum Secure Channel (Reference Implementation)
+
+Darkelf PQ Mini Engine is a small, self-contained post-quantum (PQ) secure channel designed for experimentation, research, and learning. It demonstrates how modern post-quantum cryptography primitives can be combined into a working encrypted transport without relying on TLS.
+
+The design is intentionally minimal, explicit, and readable so developers and researchers can clearly see how the protocol works end to end.
+
+This project supports both direct TCP connections and Tor (.onion) connections via SOCKS5.
+
+SECURITY WARNING:
+This project is a reference implementation and prototype.
+It is NOT audited, NOT hardened, and NOT a replacement for TLS.
+Do not rely on it to protect real secrets without independent professional review.
+
+---
+
+## Features
+
 - Post-quantum key exchange using liboqs (e.g., Kyber)
 - Post-quantum authentication using liboqs (e.g., Dilithium)
 - Key derivation using HKDF-SHA256 (OpenSSL)
@@ -19,8 +36,11 @@ Features:
 - Explicit protocol design with clear handshake and record framing
 - No TLS dependency
 
-Project Layout:
+---
 
+## Project Layout
+
+```text
 .
 ├── CMakeLists.txt
 ├── README.md
@@ -40,6 +60,7 @@ Project Layout:
     ├── pqme-keygen.cpp
     ├── pqme-server.cpp
     └── pqme-client.cpp
+
 
 Dependencies:
 - liboqs (headers and library must be installed)
